@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        id
+                    </th>
+                    <th>
+                        title
+                    </th>
+                    <th>
+                        views
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <input type="text" placeholder="id" id="id_txt" />
+        <input type="text" placeholder="title" id="title_txt" />
+        <input type="text" placeholder="views" id="views_txt" />
+        <input type="submit" value="Save" onclick="Save()">
+    </div>
+
+    <hr style="margin: 30px 0;">
+
+    <h2>Quản lý Bình luận (Comments)</h2>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nội dung</th>
+                    <th>Post ID</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="comment-table-body">
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <input type="text" placeholder="ID" id="comment_id_txt" />
+        <input type="text" placeholder="Nội dung bình luận" id="comment_text_txt" style="width: 300px;" />
+        <input type="text" placeholder="Post ID" id="comment_postId_txt" />
+        <input type="submit" value="Lưu" onclick="SaveComment()">
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
