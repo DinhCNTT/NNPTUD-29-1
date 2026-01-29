@@ -54,33 +54,33 @@ const categoryIcons = {
 async function fetchProducts() {
     try {
         showLoading(true);
-        
+
         // Try fetching from GitHub first
         let response = await fetch(GITHUB_DB_URL);
-        
+
         if (!response.ok) {
             console.log('GitHub fetch failed, trying local file...');
             response = await fetch(LOCAL_DB_URL);
         }
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
         allProducts = data;
         filteredProducts = [...allProducts];
-        
+
         // Extract unique categories
         extractCategories();
-        
+
         // Update UI
         renderCategoryFilters();
         renderProducts();
         updateStats();
-        
+
         showLoading(false);
-        
+
     } catch (error) {
         console.error('Error fetching products:', error);
         showLoading(false);
@@ -90,13 +90,13 @@ async function fetchProducts() {
 
 function extractCategories() {
     const categoryMap = new Map();
-    
+
     allProducts.forEach(product => {
         if (product.category && !categoryMap.has(product.category.id)) {
             categoryMap.set(product.category.id, product.category);
         }
     });
-    
+
     categories = Array.from(categoryMap.values());
 }
 
@@ -111,7 +111,7 @@ function renderCategoryFilters() {
             <span>All Products</span>
         </button>
     `;
-    
+
     categories.forEach(category => {
         const icon = categoryIcons[category.slug] || categoryIcons.default;
         html += `
@@ -121,9 +121,9 @@ function renderCategoryFilters() {
             </button>
         `;
     });
-    
+
     elements.categoryFilters.innerHTML = html;
-    
+
     // Add event listeners
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.addEventListener('click', handleCategoryClick);
@@ -136,17 +136,17 @@ function renderProducts() {
         elements.emptyState.style.display = 'block';
         return;
     }
-    
+
     elements.emptyState.style.display = 'none';
-    
+
     const html = filteredProducts.map((product, index) => {
-        const image = product.images && product.images[0] 
-            ? product.images[0] 
+        const image = product.images && product.images[0]
+            ? product.images[0]
             : 'https://placehold.co/600x400/1a1a2e/667eea?text=No+Image';
-        
+
         const categoryName = product.category?.name || 'Uncategorized';
         const description = product.description || 'No description available';
-        
+
         return `
             <article class="product-card" 
                      data-product-id="${product.id}" 
@@ -172,9 +172,9 @@ function renderProducts() {
             </article>
         `;
     }).join('');
-    
+
     elements.productsGrid.innerHTML = html;
-    
+
     // Add click event to cards
     document.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', (e) => {
@@ -187,15 +187,15 @@ function renderProducts() {
 }
 
 function renderProductModal(product) {
-    const image = product.images && product.images[0] 
-        ? product.images[0] 
+    const image = product.images && product.images[0]
+        ? product.images[0]
         : 'https://placehold.co/800x400/1a1a2e/667eea?text=No+Image';
-    
+
     const categoryName = product.category?.name || 'Uncategorized';
     const description = product.description || 'No description available';
     const createdAt = product.creationAt ? new Date(product.creationAt).toLocaleDateString() : 'N/A';
     const updatedAt = product.updatedAt ? new Date(product.updatedAt).toLocaleDateString() : 'N/A';
-    
+
     const html = `
         <img src="${image}" 
              alt="${escapeHtml(product.title)}" 
@@ -226,20 +226,20 @@ function renderProductModal(product) {
             </div>
         </div>
     `;
-    
+
     elements.modalContent.innerHTML = html;
 }
 
 function updateStats() {
     const count = filteredProducts.length;
     const total = allProducts.length;
-    
+
     if (count === total) {
         elements.productsStats.innerHTML = `<span class="stats-count">Showing all ${count} products</span>`;
     } else {
         elements.productsStats.innerHTML = `<span class="stats-count">Showing ${count} of ${total} products</span>`;
     }
-    
+
     // Update footer stats
     elements.totalProducts.textContent = total;
     elements.totalCategories.textContent = categories.length;
@@ -251,19 +251,19 @@ function updateStats() {
 function filterProducts() {
     filteredProducts = allProducts.filter(product => {
         // Category filter
-        const matchCategory = currentCategory === 'all' || 
+        const matchCategory = currentCategory === 'all' ||
             (product.category && product.category.id === parseInt(currentCategory));
-        
+
         // Search filter
         const searchLower = currentSearchTerm.toLowerCase();
-        const matchSearch = !currentSearchTerm || 
+        const matchSearch = !currentSearchTerm ||
             product.title.toLowerCase().includes(searchLower) ||
             (product.description && product.description.toLowerCase().includes(searchLower)) ||
             (product.category && product.category.name.toLowerCase().includes(searchLower));
-        
+
         return matchCategory && matchSearch;
     });
-    
+
     sortProducts();
     renderProducts();
     updateStats();
@@ -294,18 +294,18 @@ function sortProducts() {
 // ========================================
 function handleCategoryClick(e) {
     const btn = e.currentTarget;
-    
+
     // Update active state
     document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    
+
     currentCategory = btn.dataset.category;
     filterProducts();
 }
 
 function handleSearchInput(e) {
     currentSearchTerm = e.target.value.trim();
-    
+
     // Debounce search
     clearTimeout(window.searchTimeout);
     window.searchTimeout = setTimeout(() => {
@@ -321,7 +321,7 @@ function handleSortChange(e) {
 function openProductModal(productId) {
     const product = allProducts.find(p => p.id === productId);
     if (!product) return;
-    
+
     renderProductModal(product);
     elements.modalOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -388,8 +388,10 @@ function formatPrice(price) {
 function init() {
     // Fetch products
     fetchProducts();
-    
+
     // Event Listeners
+    elements.searchInput.addEventListener('change', handleSearchInput);
+    // Also add input event for better UX (real-time search)
     elements.searchInput.addEventListener('input', handleSearchInput);
     elements.sortSelect.addEventListener('change', handleSortChange);
     elements.modalClose.addEventListener('click', closeModal);
@@ -399,10 +401,10 @@ function init() {
         }
     });
     elements.backToTop.addEventListener('click', scrollToTop);
-    
+
     // Scroll event for back to top button
     window.addEventListener('scroll', handleScroll);
-    
+
     // Keyboard events
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {

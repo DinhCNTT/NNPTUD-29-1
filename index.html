@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🛒 Product Store - Shop the Best Products</title>
-    <meta name="description" content="Discover amazing products across various categories including Electronics, Clothes, Shoes and more!">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="description"
+        content="Discover amazing products across various categories including Electronics, Clothes, Shoes and more!">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- Hero Section -->
     <header class="hero">
@@ -19,8 +23,8 @@
             <p class="hero-subtitle">Discover amazing products from top categories</p>
             <div class="search-box">
                 <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="M21 21l-4.35-4.35"/>
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
                 </svg>
                 <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
             </div>
@@ -61,22 +65,22 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="products-stats" id="productsStats">
                 <span class="stats-count">Loading products...</span>
             </div>
-            
+
             <!-- Loading State -->
             <div class="loading-container" id="loadingContainer">
                 <div class="loading-spinner"></div>
                 <p class="loading-text">Loading amazing products...</p>
             </div>
-            
+
             <!-- Products Grid -->
             <div class="products-grid" id="productsGrid">
                 <!-- Products will be loaded dynamically -->
             </div>
-            
+
             <!-- Empty State -->
             <div class="empty-state" id="emptyState" style="display: none;">
                 <div class="empty-icon">🔍</div>
@@ -91,7 +95,7 @@
         <div class="modal" id="productModal">
             <button class="modal-close" id="modalClose">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 6L6 18M6 6l12 12"/>
+                    <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
             </button>
             <div class="modal-content" id="modalContent">
@@ -107,6 +111,18 @@
                 <div class="footer-brand">
                     <h3 class="footer-logo">Product Store</h3>
                     <p class="footer-tagline">Your destination for quality products</p>
+                    <a href="admin.html" class="admin-link">
+                        <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1" />
+                            <rect x="14" y="3" width="7" height="7" rx="1" />
+                            <rect x="14" y="14" width="7" height="7" rx="1" />
+                            <rect x="3" y="14" width="7" height="7" rx="1" />
+                        </svg>
+                        <span>Admin Dashboard</span>
+                        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
                 </div>
                 <div class="footer-stats">
                     <div class="stat-item">
@@ -128,10 +144,11 @@
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" title="Back to top">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 15l-6-6-6 6"/>
+            <path d="M18 15l-6-6-6 6" />
         </svg>
     </button>
 
     <script src="script.js"></script>
 </body>
+
 </html>
